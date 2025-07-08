@@ -36,7 +36,7 @@ A beautiful macOS menu bar plugin that tracks your Claude API usage and costs in
 2. **Install the plugin**:
    ```bash
    # Download and install in one command
-   curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/claude-xbar-plugin/main/install.sh | bash
+   curl -sSL https://raw.githubusercontent.com/xixifast/claude-xbar-plugin/main/install.sh | bash
    ```
 
 ### Manual Install
@@ -153,9 +153,8 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 ## Support
 
-- 🐛 [Report bugs](https://github.com/YOUR_USERNAME/claude-xbar-plugin/issues)
-- 💡 [Request features](https://github.com/YOUR_USERNAME/claude-xbar-plugin/issues)
-- 📧 Contact: your.email@example.com
+- 🐛 [Report bugs](https://github.com/xixifast/claude-xbar-plugin/issues)
+- 💡 [Request features](https://github.com/xixifast/claude-xbar-plugin/issues)
 
 ---
 

@@ -4,7 +4,7 @@
 set -e
 
 PLUGIN_NAME="claude-usage.10s.py"
-PLUGIN_URL="https://raw.githubusercontent.com/YOUR_USERNAME/claude-xbar-plugin/main/${PLUGIN_NAME}"
+PLUGIN_URL="https://raw.githubusercontent.com/xixifast/claude-xbar-plugin/main/${PLUGIN_NAME}"
 XBAR_PLUGIN_DIR="$HOME/Library/Application Support/xbar/plugins"
 
 echo "🤖 Claude xbar Plugin Installer"
@@ -69,4 +69,4 @@ echo "   - Click the menu bar item to see detailed usage"
 echo "   - The plugin updates every 10 seconds"
 echo "   - To change refresh rate, rename the file (e.g., claude-usage.1m.py)"
 echo ""
-echo "🐛 Issues? Visit: https://github.com/YOUR_USERNAME/claude-xbar-plugin"
+echo "🐛 Issues? Visit: https://github.com/xixifast/claude-xbar-plugin"
