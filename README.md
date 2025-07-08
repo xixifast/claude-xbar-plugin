@@ -3,19 +3,33 @@
 A beautiful macOS menu bar plugin that tracks your Claude API usage and costs in real-time.
 
 <p align="center">
-  <img src="assets/screenshot-menubar.png" alt="Menu Bar Screenshot" width="300">
-  <img src="assets/screenshot-dropdown.png" alt="Dropdown Screenshot" width="400">
+  <img src="https://github.com/user-attachments/assets/99f2e5a8-eabe-4c95-b8b9-df8b0c1ed097" alt="Claude xbar Plugin Screenshot" width="400">
 </p>
+
+> Real-time Claude API cost tracking with detailed breakdowns by model, project, and daily usage
 
 ## Features
 
-- 🤖 **Real-time Cost Tracking** - See your total Claude API costs at a glance
-- 📊 **Today's Usage** - Track daily spending with visual indicators
-- 🎯 **Model Breakdown** - Visualize costs by model (Opus, Sonnet, etc.)
-- 📁 **Project Analytics** - See which projects use the most tokens
-- 🔤 **Token Statistics** - Detailed breakdown of input, output, and cache tokens
-- 🎨 **Beautiful Display** - Clean, professional interface with icons and visual bars
-- ⚡ **Auto-refresh** - Updates every 10 seconds (configurable)
+### 🤖 Real-time Cost Tracking
+- See your total Claude API costs at a glance in the menu bar
+- Today's spending indicator when costs exceed $1
+
+### 📊 Detailed Analytics  
+- **Today's Usage** - Track daily spending, sessions, and tokens
+- **Model Breakdown** - Visualize costs by model with progress bars
+- **Project Analytics** - Top 5 projects by cost  
+- **Token Statistics** - Detailed breakdown of all token types
+
+### 🎨 Beautiful Interface
+- Clean, professional design optimized for macOS
+- Visual progress bars and tree structures
+- Supports both light and dark mode
+- Icons and emojis for better readability
+
+### ⚡ Performance
+- Auto-refreshes every 10 seconds (configurable)
+- Efficient JSONL parsing
+- Memory-conscious for large datasets
 
 ## Installation
 
@@ -77,9 +91,13 @@ MODEL_PRICING = {
 }
 ```
 
-## Display Format
+## What It Shows
 
-The plugin shows:
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/99f2e5a8-eabe-4c95-b8b9-df8b0c1ed097" alt="Plugin Display Format" width="350">
+</p>
+
+The plugin displays:
 
 - **Menu Bar**: Total cost with today's increase (if > $1)
   - Format: `🤖 $347.86 (↑$12.34)`
