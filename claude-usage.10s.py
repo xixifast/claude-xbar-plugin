@@ -246,7 +246,7 @@ def main():
         return
     
     # Menu bar display - show today's cost
-    print(f"🤖 Today: {format_currency(result['today_cost'])}")
+    print(f"🤖 {format_currency(result['today_cost'])}")
     print("---")
     
     # Overview Section

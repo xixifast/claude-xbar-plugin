@@ -100,8 +100,8 @@ MODEL_PRICING = {
 
 The plugin displays:
 
-- **Menu Bar**: Today's cost only
-  - Format: `🤖 Today: $125.80`
+- **Menu Bar**: Today's cost
+  - Format: `🤖 $125.80`
 
 - **Dropdown Menu**:
   - 💰 **Overview**: Total cost, sessions, and average cost per session

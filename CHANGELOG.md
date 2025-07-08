@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Menu bar now displays only today's cost for cleaner, more relevant information
-- Format changed from total cost to "Today: $X.XX" for better daily tracking
+- Simplified format to just show amount (e.g., `🤖 $125.80`) without "Today:" prefix
+- Total cost still available in dropdown menu for comprehensive view
 
 ## [1.0.0] - 2024-01-08
 
