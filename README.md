@@ -12,8 +12,8 @@ A beautiful macOS menu bar plugin that tracks your Claude API usage and costs in
 ## Features
 
 ### 🤖 Real-time Cost Tracking
-- See your total Claude API costs at a glance in the menu bar
-- Today's spending indicator when costs exceed $1
+- See today's Claude API costs at a glance in the menu bar
+- Clean display showing only what matters most: today's spending
 
 ### 📊 Detailed Analytics  
 - **Today's Usage** - Track daily spending, sessions, and tokens
@@ -100,8 +100,8 @@ MODEL_PRICING = {
 
 The plugin displays:
 
-- **Menu Bar**: Total cost with today's increase (if > $1)
-  - Format: `🤖 $347.86 (↑$12.34)`
+- **Menu Bar**: Today's cost only
+  - Format: `🤖 Today: $125.80`
 
 - **Dropdown Menu**:
   - 💰 **Overview**: Total cost, sessions, and average cost per session

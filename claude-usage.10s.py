@@ -245,11 +245,8 @@ def main():
         print("📁 View Claude Projects | bash=open | param1=~/.claude/projects")
         return
     
-    # Menu bar display - show today's cost if significant
-    if result["today_cost"] > 1:
-        print(f"🤖 {format_currency(result['total_cost'])} (↑{format_currency(result['today_cost'])})")
-    else:
-        print(f"🤖 {format_currency(result['total_cost'])}")
+    # Menu bar display - show today's cost
+    print(f"🤖 Today: {format_currency(result['today_cost'])}")
     print("---")
     
     # Overview Section
