@@ -3,8 +3,9 @@
 A beautiful macOS menu bar plugin that tracks your Claude API usage and costs in real-time.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/99f2e5a8-eabe-4c95-b8b9-df8b0c1ed097" alt="Claude xbar Plugin Screenshot" width="400">
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/170250067/463725654-827f98fd-c83c-40a4-b5e2-88337e69f2e3.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250708%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250708T140433Z&X-Amz-Expires=300&X-Amz-Signature=a066b94c7ffedd4f420beb5a229c86c4a8811a89b99ac897b6d264a0924efae7&X-Amz-SignedHeaders=host" alt="Claude xbar Plugin Screenshot" width="400">
 </p>
+
 
 > Real-time Claude API cost tracking with detailed breakdowns by model, project, and daily usage
 
