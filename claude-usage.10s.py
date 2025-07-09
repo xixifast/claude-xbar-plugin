@@ -250,37 +250,37 @@ def main():
     print("---")
     
     # Overview Section
-    print("💰 Overview")
-    print(f"Total Cost: {format_currency(result['total_cost'])} | color=#000000 font=Menlo-Bold size=13")
-    print(f"Sessions: {result['session_count']:,} | color=#666666 font=Menlo size=12")
+    print("💰 Overview | color=#1D1D1F font=system-bold size=12")
+    print(f"Total Cost: {format_currency(result['total_cost'])} | color=#1D1D1F font=system-bold size=13")
+    print(f"Sessions: {result['session_count']:,} | color=#3A3A3C font=system size=12")
     
     # Calculate average cost per session
     avg_cost = result['total_cost'] / result['session_count'] if result['session_count'] > 0 else 0
-    print(f"Average: {format_currency(avg_cost)}/session | color=#666666 font=Menlo size=12")
+    print(f"Average: {format_currency(avg_cost)}/session | color=#3A3A3C font=system size=12")
     print("---")
     
     # Today's usage with visual emphasis
     if result["today_cost"] > 0:
-        print("📅 Today")
-        print(f"Cost: {format_currency(result['today_cost'])} | color=#007AFF font=Menlo-Bold size=12")
-        print(f"Sessions: {result['today_session_count']:,} | color=#666666 font=Menlo size=12")
+        print("📅 Today | color=#1D1D1F font=system-bold size=12")
+        print(f"Cost: {format_currency(result['today_cost'])} | color=#1D1D1F font=system-bold size=12")
+        print(f"Sessions: {result['today_session_count']:,} | color=#3A3A3C font=system size=12")
         today_total_tokens = sum(result['today_token_counts'].values())
-        print(f"Tokens: {format_tokens(today_total_tokens)} | color=#666666 font=Menlo size=12")
+        print(f"Tokens: {format_tokens(today_total_tokens)} | color=#3A3A3C font=system size=12")
         print("---")
     
     # Token breakdown with icons
     total_tokens = sum(result['token_counts'].values())
-    print("🔤 Token Usage")
-    print(f"Total: {format_tokens(total_tokens)} | color=#000000 font=Menlo-Bold size=12")
-    print(f"├─ Input: {format_tokens(result['token_counts']['input'])} | color=#666666 font=Menlo size=11")
-    print(f"├─ Output: {format_tokens(result['token_counts']['output'])} | color=#666666 font=Menlo size=11")
-    print(f"├─ Cache Write: {format_tokens(result['token_counts']['cache_write'])} | color=#666666 font=Menlo size=11")
-    print(f"└─ Cache Read: {format_tokens(result['token_counts']['cache_read'])} | color=#666666 font=Menlo size=11")
+    print("🔤 Token Usage | color=#1D1D1F font=system-bold size=12")
+    print(f"Total: {format_tokens(total_tokens)} | color=#1D1D1F font=system-bold size=12")
+    print(f"├─ Input: {format_tokens(result['token_counts']['input'])} | color=#5A5A5C font=system size=11")
+    print(f"├─ Output: {format_tokens(result['token_counts']['output'])} | color=#5A5A5C font=system size=11")
+    print(f"├─ Cache Write: {format_tokens(result['token_counts']['cache_write'])} | color=#5A5A5C font=system size=11")
+    print(f"└─ Cache Read: {format_tokens(result['token_counts']['cache_read'])} | color=#5A5A5C font=system size=11")
     print("---")
     
     # Cost by model with visual bars
     if result["cost_by_model"]:
-        print("🎯 By Model")
+        print("🎯 By Model | color=#1D1D1F font=system-bold size=12")
         sorted_models = sorted(result["cost_by_model"].items(), 
                              key=lambda x: x[1], reverse=True)
         max_cost = sorted_models[0][1] if sorted_models else 1
@@ -290,48 +290,19 @@ def main():
             bar_length = int((cost / max_cost) * 20)
             bar = "█" * bar_length + "░" * (20 - bar_length)
             percentage = (cost / result['total_cost']) * 100
-            print(f"{model}: {format_currency(cost)} ({percentage:.1f}%) | font=Menlo size=11")
-            print(f"{bar} | color=#999999 font=Menlo size=8")
-        print("---")
-    
-    # Cost by project (top 5) with better formatting
-    if result["cost_by_project"]:
-        print("📁 Top Projects")
-        sorted_projects = sorted(result["cost_by_project"].items(), 
-                               key=lambda x: x[1], reverse=True)[:5]
-        
-        for i, (project, cost) in enumerate(sorted_projects):
-            # Decode project name if needed
-            try:
-                if project.startswith("_"):
-                    # Likely an encoded path
-                    display_name = project.split("_")[-1] if "_" in project else project
-                else:
-                    display_name = project
-                
-                # Truncate long names
-                if len(display_name) > 30:
-                    display_name = display_name[:27] + "..."
-                    
-                icon = "├─" if i < len(sorted_projects) - 1 else "└─"
-                print(f"{icon} {display_name} | font=Menlo size=11")
-                print(f"   {format_currency(cost)} | color=#666666 font=Menlo size=10")
-            except:
-                print(f"{icon} {project}: {format_currency(cost)} | font=Menlo size=11")
-        
-        if len(result["cost_by_project"]) > 5:
-            print(f"   ...and {len(result['cost_by_project']) - 5} more | color=#999999 font=Menlo size=10")
+            print(f"{model}: {format_currency(cost)} ({percentage:.1f}%) | color=#3A3A3C font=system size=11")
+            print(f"{bar} | color=#5A5A5C font=system size=8")
         print("---")
     
     # Actions
-    print("🔧 Actions")
+    print("🔧 Actions | color=#1D1D1F font=system-bold size=12")
     print("Refresh | refresh=true")
     print("View Claude Projects | bash=open | param1=~/.claude/projects")
     print("---")
     
     # Footer with last update time
     now = datetime.now().strftime("%I:%M %p")
-    print(f"Last updated: {now} | color=#999999 font=Menlo size=10")
+    print(f"Last updated: {now} | color=#5A5A5C font=system size=10")
 
 if __name__ == "__main__":
     main()
