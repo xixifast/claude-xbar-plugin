@@ -251,7 +251,7 @@ def main():
     
     # Overview Section
     print("💰 Overview | color=#1D1D1F font=system-bold size=12")
-    print(f"Total Cost: {format_currency(result['total_cost'])} | color=#1D1D1F font=system-bold size=13")
+    print(f"Total Cost: {format_currency(result['total_cost'])} | color=#1D1D1F font=system-bold size=12")
     print(f"Sessions: {result['session_count']:,} | color=#3A3A3C font=system size=12")
     
     # Calculate average cost per session
@@ -286,10 +286,10 @@ def main():
         max_cost = sorted_models[0][1] if sorted_models else 1
         
         for model, cost in sorted_models:
-            # Create a simple visual bar
-            bar_length = int((cost / max_cost) * 20)
-            bar = "█" * bar_length + "░" * (20 - bar_length)
+            # Create a visual bar based on percentage
             percentage = (cost / result['total_cost']) * 100
+            bar_length = int((percentage / 100) * 20)
+            bar = "█" * bar_length + "░" * (20 - bar_length)
             print(f"{model}: {format_currency(cost)} ({percentage:.1f}%) | color=#3A3A3C font=system size=11")
             print(f"{bar} | color=#5A5A5C font=system size=8")
         print("---")
