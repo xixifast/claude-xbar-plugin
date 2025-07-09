@@ -3,7 +3,7 @@
 A beautiful macOS menu bar plugin that tracks your Claude API usage and costs in real-time.
 
 <p align="center">
-<img width="400" alt="image" src="https://github.com/user-attachments/assets/04a1cf57-7535-4a2e-af09-ac966dbf78d9" />
+<img width="248" alt="image" src="https://github.com/user-attachments/assets/c2ee3856-489f-41a9-8b6e-7479ec835df3" />
 
 </p>
 
