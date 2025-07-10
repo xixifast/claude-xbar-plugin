@@ -11,7 +11,7 @@ import json
 import os
 from pathlib import Path
 from decimal import Decimal, getcontext
-from datetime import datetime
+from datetime import datetime, timedelta
 from collections import defaultdict
 
 # Set precision for currency calculations
@@ -119,8 +119,22 @@ def parse_jsonl_files():
     today_session_count = 0
     processed_messages = set()
     
-    # Get today's date in ISO format
+    # Get dates for the last 3 days in ISO format
     today = datetime.now().date().isoformat()
+    yesterday = (datetime.now().date() - timedelta(days=1)).isoformat()
+    day_before_yesterday = (datetime.now().date() - timedelta(days=2)).isoformat()
+    
+    # Track costs for the last 3 days
+    daily_costs = {
+        today: Decimal(0),
+        yesterday: Decimal(0),
+        day_before_yesterday: Decimal(0)
+    }
+    daily_sessions = {
+        today: 0,
+        yesterday: 0,
+        day_before_yesterday: 0
+    }
     
     # Walk through all project directories
     for project_dir in claude_dir.iterdir():
@@ -197,6 +211,13 @@ def parse_jsonl_files():
                                     today_token_counts["cache_read"] += usage.get("cache_read_input_tokens", 0)
                                     today_session_count += 1
                                 
+                                # Track costs for the last 3 days
+                                for date_key in daily_costs:
+                                    if timestamp.startswith(date_key):
+                                        daily_costs[date_key] += cost
+                                        daily_sessions[date_key] += 1
+                                        break
+                                
                         except json.JSONDecodeError:
                             continue
                             
@@ -211,7 +232,14 @@ def parse_jsonl_files():
         "token_counts": token_counts,
         "today_token_counts": today_token_counts,
         "session_count": session_count,
-        "today_session_count": today_session_count
+        "today_session_count": today_session_count,
+        "daily_costs": dict(daily_costs),
+        "daily_sessions": dict(daily_sessions),
+        "dates": {
+            "today": today,
+            "yesterday": yesterday,
+            "day_before_yesterday": day_before_yesterday
+        }
     }, None
 
 def format_currency(amount):
@@ -266,6 +294,31 @@ def main():
         print(f"Sessions: {result['today_session_count']:,} | color=#3A3A3C font=system size=12")
         today_total_tokens = sum(result['today_token_counts'].values())
         print(f"Tokens: {format_tokens(today_total_tokens)} | color=#3A3A3C font=system size=12")
+        print("---")
+    
+    # Recent 3 days breakdown
+    if result.get("daily_costs") and any(result["daily_costs"].values()):
+        print("📊 Last 3 Days | color=#1D1D1F font=system-bold size=12")
+        dates = result.get("dates", {})
+        
+        # Create day labels
+        today_label = "Today"
+        yesterday_label = "Yesterday" 
+        day_before_label = "2 Days Ago"
+        
+        # Display each day with costs and sessions
+        for i, (period, label) in enumerate([(dates.get("today"), today_label), 
+                                           (dates.get("yesterday"), yesterday_label),
+                                           (dates.get("day_before_yesterday"), day_before_label)]):
+            if period and period in result["daily_costs"]:
+                cost = result["daily_costs"][period]
+                sessions = result["daily_sessions"].get(period, 0)
+                
+                if cost > 0 or sessions > 0:
+                    icon = "├─" if i < 2 else "└─"
+                    print(f"{icon} {label}: {format_currency(cost)} | color=#3A3A3C font=system size=11")
+                    if sessions > 0:
+                        print(f"   Sessions: {sessions:,} | color=#5A5A5C font=system size=10")
         print("---")
     
     # Token breakdown with icons
