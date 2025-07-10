@@ -103,6 +103,7 @@ def parse_jsonl_files():
     today_cost = Decimal(0)
     cost_by_project = defaultdict(Decimal)
     cost_by_model = defaultdict(Decimal)
+    today_cost_by_model = defaultdict(Decimal)
     token_counts = {
         "input": 0,
         "output": 0,
@@ -210,6 +211,11 @@ def parse_jsonl_files():
                                     today_token_counts["cache_write"] += usage.get("cache_creation_input_tokens", 0)
                                     today_token_counts["cache_read"] += usage.get("cache_read_input_tokens", 0)
                                     today_session_count += 1
+                                    
+                                    # Track today's model costs
+                                    pricing = get_model_pricing(model)
+                                    if pricing:
+                                        today_cost_by_model[pricing["name"]] += cost
                                 
                                 # Track costs for the last 3 days
                                 for date_key in daily_costs:
@@ -229,6 +235,7 @@ def parse_jsonl_files():
         "today_cost": today_cost,
         "cost_by_project": dict(cost_by_project),
         "cost_by_model": dict(cost_by_model),
+        "today_cost_by_model": dict(today_cost_by_model),
         "token_counts": token_counts,
         "today_token_counts": today_token_counts,
         "session_count": session_count,
@@ -331,16 +338,15 @@ def main():
     print(f"└─ Cache Read: {format_tokens(result['token_counts']['cache_read'])} | color=#5A5A5C font=system size=11")
     print("---")
     
-    # Cost by model with visual bars
-    if result["cost_by_model"]:
-        print("🎯 By Model | color=#1D1D1F font=system-bold size=12")
-        sorted_models = sorted(result["cost_by_model"].items(), 
+    # Cost by model today with visual bars
+    if result["today_cost_by_model"] and result["today_cost"] > 0:
+        print("🎯 By Model Today | color=#1D1D1F font=system-bold size=12")
+        sorted_models = sorted(result["today_cost_by_model"].items(), 
                              key=lambda x: x[1], reverse=True)
-        max_cost = sorted_models[0][1] if sorted_models else 1
         
         for model, cost in sorted_models:
-            # Create a visual bar based on percentage
-            percentage = (cost / result['total_cost']) * 100
+            # Create a visual bar based on percentage of today's total
+            percentage = (cost / result['today_cost']) * 100
             bar_length = int((percentage / 100) * 20)
             bar = "█" * bar_length + "░" * (20 - bar_length)
             print(f"{model}: {format_currency(cost)} ({percentage:.1f}%) | color=#3A3A3C font=system size=11")
