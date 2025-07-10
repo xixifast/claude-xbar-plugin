@@ -328,16 +328,6 @@ def main():
                         print(f"   Sessions: {sessions:,} | color=#5A5A5C font=system size=10")
         print("---")
     
-    # Token breakdown with icons
-    total_tokens = sum(result['token_counts'].values())
-    print("🔤 Token Usage | color=#1D1D1F font=system-bold size=12")
-    print(f"Total: {format_tokens(total_tokens)} | color=#1D1D1F font=system-bold size=12")
-    print(f"├─ Input: {format_tokens(result['token_counts']['input'])} | color=#5A5A5C font=system size=11")
-    print(f"├─ Output: {format_tokens(result['token_counts']['output'])} | color=#5A5A5C font=system size=11")
-    print(f"├─ Cache Write: {format_tokens(result['token_counts']['cache_write'])} | color=#5A5A5C font=system size=11")
-    print(f"└─ Cache Read: {format_tokens(result['token_counts']['cache_read'])} | color=#5A5A5C font=system size=11")
-    print("---")
-    
     # Cost by model today with visual bars
     if result["today_cost_by_model"] and result["today_cost"] > 0:
         print("🎯 By Model Today | color=#1D1D1F font=system-bold size=12")
