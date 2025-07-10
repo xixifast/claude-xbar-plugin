@@ -136,6 +136,11 @@ def parse_jsonl_files():
         yesterday: 0,
         day_before_yesterday: 0
     }
+    daily_tokens = {
+        today: {"input": 0, "output": 0, "cache_write": 0, "cache_read": 0},
+        yesterday: {"input": 0, "output": 0, "cache_write": 0, "cache_read": 0},
+        day_before_yesterday: {"input": 0, "output": 0, "cache_write": 0, "cache_read": 0}
+    }
     
     # Walk through all project directories
     for project_dir in claude_dir.iterdir():
@@ -222,6 +227,11 @@ def parse_jsonl_files():
                                     if timestamp.startswith(date_key):
                                         daily_costs[date_key] += cost
                                         daily_sessions[date_key] += 1
+                                        # Track daily tokens
+                                        daily_tokens[date_key]["input"] += usage.get("input_tokens", 0)
+                                        daily_tokens[date_key]["output"] += usage.get("output_tokens", 0)
+                                        daily_tokens[date_key]["cache_write"] += usage.get("cache_creation_input_tokens", 0)
+                                        daily_tokens[date_key]["cache_read"] += usage.get("cache_read_input_tokens", 0)
                                         break
                                 
                         except json.JSONDecodeError:
@@ -242,6 +252,7 @@ def parse_jsonl_files():
         "today_session_count": today_session_count,
         "daily_costs": dict(daily_costs),
         "daily_sessions": dict(daily_sessions),
+        "daily_tokens": dict(daily_tokens),
         "dates": {
             "today": today,
             "yesterday": yesterday,
@@ -294,15 +305,6 @@ def main():
     print(f"Average: {format_currency(avg_cost)}/session | color=#3A3A3C font=system size=12")
     print("---")
     
-    # Today's usage with visual emphasis
-    if result["today_cost"] > 0:
-        print("📅 Today | color=#1D1D1F font=system-bold size=12")
-        print(f"Cost: {format_currency(result['today_cost'])} | color=#1D1D1F font=system-bold size=12")
-        print(f"Sessions: {result['today_session_count']:,} | color=#3A3A3C font=system size=12")
-        today_total_tokens = sum(result['today_token_counts'].values())
-        print(f"Tokens: {format_tokens(today_total_tokens)} | color=#3A3A3C font=system size=12")
-        print("---")
-    
     # Recent 3 days breakdown
     if result.get("daily_costs") and any(result["daily_costs"].values()):
         print("📊 Last 3 Days | color=#1D1D1F font=system-bold size=12")
@@ -313,19 +315,23 @@ def main():
         yesterday_label = "Yesterday" 
         day_before_label = "2 Days Ago"
         
-        # Display each day with costs and sessions
+        # Display each day with costs, sessions and tokens
         for i, (period, label) in enumerate([(dates.get("today"), today_label), 
                                            (dates.get("yesterday"), yesterday_label),
                                            (dates.get("day_before_yesterday"), day_before_label)]):
             if period and period in result["daily_costs"]:
                 cost = result["daily_costs"][period]
                 sessions = result["daily_sessions"].get(period, 0)
+                daily_token_data = result["daily_tokens"].get(period, {})
+                total_tokens = sum(daily_token_data.values()) if daily_token_data else 0
                 
                 if cost > 0 or sessions > 0:
                     icon = "├─" if i < 2 else "└─"
                     print(f"{icon} {label}: {format_currency(cost)} | color=#3A3A3C font=system size=11")
-                    if sessions > 0:
-                        print(f"   Sessions: {sessions:,} | color=#5A5A5C font=system size=10")
+                    if sessions > 0 or total_tokens > 0:
+                        session_text = f"Sessions: {sessions:,}" if sessions > 0 else "Sessions: 0"
+                        token_text = f"Tokens: {format_tokens(total_tokens)}" if total_tokens > 0 else "Tokens: 0"
+                        print(f"   {session_text}, {token_text} | color=#5A5A5C font=system size=10")
         print("---")
     
     # Cost by model today with visual bars
